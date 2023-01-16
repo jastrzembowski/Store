@@ -1,17 +1,16 @@
+import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { useState } from "react";
-import Catalog from "../../features/catalog/Catalog";
-import Header from "./Header";
-import {
-  Container,
-  CssBaseline,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "@mui/icons-material";
+import { ToastContainer } from "react-toastify";
+import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
-import About from "../../features/about/About";
+import Header from "./Header";
+import 'react-toastify/dist/ReactToastify.css';
+import ServerError from "../errors/ServerError";
+import HomePage from "../../features/home/HomePage";
 import Contact from "../../features/contact/Contact";
+import About from "../../features/about/About";
+import NotFound from "../errors/NotFound";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -22,8 +21,8 @@ function App() {
     palette: {
       mode: paletteType,
       background: {
-        default: paletteType === 'light' ? '#eaeaea' : '#121212'
-      }
+        default: paletteType === "light" ? "#eaeaea" : "#121212",
+      },
     },
   });
 
@@ -32,15 +31,19 @@ function App() {
   }
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header darkMode={darkMode} changeMode={changeMode} />
+      <ToastContainer position='bottom-right' hideProgressBar theme="colored" />
+        <CssBaseline />
+        <Header darkMode={darkMode} changeMode={changeMode} />
       <Container>
         <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<HomePage/>}/>
         <Route path="/catalog" element={<Catalog/>}/>
         <Route path="/catalog/:id" element={<ProductDetails/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/>
+        <Route path="/server-error" element={<ServerError/>}/>
+        <Route path="*" element={<NotFound/>}/>
+
         </Routes>
       </Container>
     </ThemeProvider>

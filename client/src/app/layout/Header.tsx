@@ -14,7 +14,7 @@ interface Props {
 }
 
 const midLinks = [
-  { title: "catalog", path: "/catalog" },
+  { title: 'catalog', path: '/catalog' },
   { title: "about", path: "/about" },
   { title: "contact", path: "/contact" },
 ];
@@ -44,8 +44,13 @@ export default function Header({ darkMode, changeMode }: Props) {
           alignItems: "center",
         }}
       >
-        <Box display='flex' alignItems='center'>
-          <Typography variant="h6" component={NavLink} to="/" sx={navStyles}>
+        <Box display="flex" alignItems="center">
+          <Typography
+            variant="h6"
+            component={NavLink}
+            to="/"
+            sx={navStyles}
+          >
             STORE
           </Typography>
           <Switch checked={darkMode} onChange={changeMode} />
@@ -57,7 +62,7 @@ export default function Header({ darkMode, changeMode }: Props) {
             </ListItem>
           ))}
         </List>
-        <Box display="flex" alignItems='center'>
+        <Box display="flex" alignItems="center">
           <IconButton size="large" sx={{ color: "inherit" }}>
             <Badge badgeContent={4} color="secondary">
               <ShoppingCart />
