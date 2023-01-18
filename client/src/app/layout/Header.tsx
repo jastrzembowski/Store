@@ -7,6 +7,8 @@ import ListItem from "@mui/material/ListItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useStoreContext } from "../context/StoreContext";
 
 interface Props {
   darkMode: boolean;
@@ -14,7 +16,7 @@ interface Props {
 }
 
 const midLinks = [
-  { title: 'catalog', path: '/catalog' },
+  { title: "catalog", path: "/catalog" },
   { title: "about", path: "/about" },
   { title: "contact", path: "/contact" },
 ];
@@ -35,6 +37,9 @@ const navStyles = {
   },
 };
 export default function Header({ darkMode, changeMode }: Props) {
+  const { basket } = useStoreContext();
+  const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <AppBar position="static" sx={{ mb: 4 }}>
       <Toolbar
@@ -45,12 +50,7 @@ export default function Header({ darkMode, changeMode }: Props) {
         }}
       >
         <Box display="flex" alignItems="center">
-          <Typography
-            variant="h6"
-            component={NavLink}
-            to="/"
-            sx={navStyles}
-          >
+          <Typography variant="h6" component={NavLink} to="/" sx={navStyles}>
             STORE
           </Typography>
           <Switch checked={darkMode} onChange={changeMode} />
@@ -63,8 +63,13 @@ export default function Header({ darkMode, changeMode }: Props) {
           ))}
         </List>
         <Box display="flex" alignItems="center">
-          <IconButton size="large" sx={{ color: "inherit" }}>
-            <Badge badgeContent={4} color="secondary">
+          <IconButton
+            size="large"
+            sx={{ color: "inherit" }}
+            component={Link}
+            to="/basket"
+          >
+            <Badge badgeContent={itemCount} color="secondary">
               <ShoppingCart />
             </Badge>
           </IconButton>

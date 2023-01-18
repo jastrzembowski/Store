@@ -5,8 +5,9 @@ import App from "./app/layout/App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserHistory } from "history";
 import CustomRouter from "./CustiomRouter";
+import { StoreProvider } from "./app/context/StoreContext";
 
-export const history = createBrowserHistory()
+export const history = createBrowserHistory();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,7 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <CustomRouter history={history}>
-      <App />
+      <StoreProvider>
+        <App />
+      </StoreProvider>
     </CustomRouter>
   </React.StrictMode>
 );
