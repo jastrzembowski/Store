@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Basket } from "../../app/models/basket";
 import agent from "../../app/api/agent";
-import { Action } from "@remix-run/router";
 
 interface BasketState {
   basket: Basket | null;
@@ -16,13 +15,16 @@ const initialState: BasketState = {
 export const addBasketItemAsync = createAsyncThunk<
   Basket,
   { productId: number; quantity?: number }
->("basket/addBasketItemAsync", async ({ productId, quantity = 1 }, thunkAPI) => {
-  try {
-    return await agent.Basket.addItem(productId, quantity);
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue({error: error.data})
+>(
+  "basket/addBasketItemAsync",
+  async ({ productId, quantity = 1 }, thunkAPI) => {
+    try {
+      return await agent.Basket.addItem(productId, quantity);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
   }
-});
+);
 export const removeBasketItemAsync = createAsyncThunk<
   void,
   { productId: number; quantity: number; name?: string }
@@ -30,7 +32,7 @@ export const removeBasketItemAsync = createAsyncThunk<
   try {
     agent.Basket.removeItem(productId, quantity);
   } catch (error: any) {
-    return thunkAPI.rejectWithValue({error: error.data})
+    return thunkAPI.rejectWithValue({ error: error.data });
   }
 });
 
@@ -71,7 +73,7 @@ export const basketSlice = createSlice({
     });
     builder.addCase(removeBasketItemAsync.rejected, (state, action) => {
       state.status = "idle";
-      console.log(action.payload)
+      console.log(action.payload);
     });
   },
 });
