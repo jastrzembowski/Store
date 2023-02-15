@@ -91,20 +91,24 @@ export const catalogSlice = createSlice({
   }),
   reducers: {
     setProductParams: (state, action) => {
-        state.productsLoaded = false;
-        state.productParams = {...state.productParams, ...action.payload, pageNumber: 1};
+      state.productsLoaded = false;
+      state.productParams = {
+        ...state.productParams,
+        ...action.payload,
+        pageNumber: 1,
+      };
     },
     setPageNumber: (state, action) => {
-        state.productsLoaded = false;
-        state.productParams = {...state.productParams, ...action.payload};
+      state.productsLoaded = false;
+      state.productParams = { ...state.productParams, ...action.payload };
     },
     setMetaData: (state, action) => {
-        state.metaData = action.payload;
+      state.metaData = action.payload;
     },
     resetProductParams: (state) => {
-        state.productParams = initParams();
-    }
-},
+      state.productParams = initParams();
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchProductsAsync.pending, (state) => {
       state.status = "pendingFetchProducts";
@@ -130,18 +134,18 @@ export const catalogSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(fetchFilters.pending, (state) => {
-      state.status = 'pendingFetchFilters';
-  });
-  builder.addCase(fetchFilters.fulfilled, (state, action) => {
+      state.status = "pendingFetchFilters";
+    });
+    builder.addCase(fetchFilters.fulfilled, (state, action) => {
       state.brands = action.payload.brands;
       state.types = action.payload.types;
       state.filtersLoaded = true;
-      state.status = 'idle';
-  });
-  builder.addCase(fetchFilters.rejected, (state, action) => {
-      state.status = 'idle';
+      state.status = "idle";
+    });
+    builder.addCase(fetchFilters.rejected, (state, action) => {
+      state.status = "idle";
       console.log(action.payload);
-  })
+    });
   },
 });
 
@@ -149,5 +153,9 @@ export const productSelectors = productsAdapter.getSelectors(
   (state: RootState) => state.catalog
 );
 
-export const { setProductParams, resetProductParams, setMetaData, setPageNumber } =
-  catalogSlice.actions;
+export const {
+  setProductParams,
+  resetProductParams,
+  setMetaData,
+  setPageNumber,
+} = catalogSlice.actions;
